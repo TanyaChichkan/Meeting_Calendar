@@ -1,64 +1,27 @@
-{
-  "tasks": [
-    {
-      "id": "1a",
-      "start": 0,
-      "duration": 15,
-      "title": "Exercise"
-    },
-    {
-      "id": "1e",
-      "start": 400,
-      "duration": 130,
-      "title": "Complete task"
-    },
-    {
-      "id": "1f",
-      "start": 200,
-      "duration": 50,
-      "title": "Cook lunch"
-    },
-    {
-      "id": "1w",
-      "start": 40,
-      "duration": 35,
-      "title": "Do test"
-    },
-    {
-      "startTime": "10:00",
-      "finishTime": "10:30",
-      "title": "Go to the zoo",
-      "id": "ocMs77GXiBn4dzcajZX3b"
-    },
-    {
-      "startTime": "10:00",
-      "finishTime": "10:30",
-      "title": "Go to the zoo",
-      "id": "HKUdl79dJkP7-7JX_BlOW"
-    },
-    {
-      "startTime": "10:00",
-      "finishTime": "11:00",
-      "title": "Visit a friend",
-      "id": "kxxGaFtvKDmLCq6ypFZBP"
-    },
-    {
-      "startTime": "07:00",
-      "finishTime": "09:00",
-      "title": "go",
-      "id": "5HANrwsNdSdtIACza-4BV"
-    },
-    {
-      "startTime": "16:00",
-      "finishTime": "17:00",
-      "title": "go",
-      "id": "80wgxRbHTBdPgnF2x8wJn"
-    },
-    {
-      "startTime": "14:00",
-      "finishTime": "11:00",
-      "title": "run",
-      "id": "waITPbFfCSqvQORCbaWF-"
-    }
-  ]
-}
+[
+  {
+    "start": "0",
+    "duration": "15",
+    "title": "Exercise"
+  },
+  {
+    "start": "0",
+    "duration": "20",
+    "title": "Walk"
+  },
+  {
+    "start": "100",
+    "duration": "130",
+    "title": "Complete task"
+  },
+  {
+    "start": "300",
+    "duration": "130",
+    "title": "Run"
+  },
+  {
+    "start": "40",
+    "duration": "35",
+    "title": "Do test"
+  }
+]

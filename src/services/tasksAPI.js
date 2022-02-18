@@ -1,17 +1,17 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = 'http://localhost:3000/';
+axios.defaults.baseURL = ' http://localhost:8083';
 
 const fetchAllTasks = () => {
-  return axios.get('/tasks');
+  return axios.get('/api/tasks');
 };
 
 const addTask = (task) => {
-  return axios.post('/tasks', task);
+  return axios.post('/api/tasks', task);
 };
 
 const deleteTask = (id) => {
-  return axios.delete(`tasks/${id}`);
+  return axios.delete(`/api/tasks/${id}`);
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export

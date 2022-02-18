@@ -1,10 +1,14 @@
+import { BrowserRouter } from 'react-router-dom';
+
 import SchedulerTracker from './components/basic-components/SchedulerTracker';
 
 function App() {
   return (
-    <div className='App'>
-      <SchedulerTracker />
-    </div>
+    <BrowserRouter>
+      <div className='App'>
+        <SchedulerTracker />
+      </div>
+    </BrowserRouter>
   );
 }
 

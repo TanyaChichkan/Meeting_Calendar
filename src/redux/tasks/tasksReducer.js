@@ -9,12 +9,14 @@ import {
   addTaskRequest,
   addTaskError,
   addTaskSuccess,
+  setSelectedTaskID,
 } from './tasksActions';
 
 const initialState = {
   tasksList: [],
   loading: false,
   error: '',
+  selectedTaskId: null,
 };
 
 export const tasksReducer = createReducer(initialState, {
@@ -33,7 +35,7 @@ export const tasksReducer = createReducer(initialState, {
   [deleteTaskSuccess]: (state, { payload }) => ({
     ...state,
     loading: false,
-    tasksList: [...state.tasksList.filter(({ id }) => id !== payload)],
+    tasksList: [...state.tasksList.filter(({ _id }) => _id !== payload)],
   }),
 
   [deleteTaskError]: (state, { payload }) => ({
@@ -51,5 +53,9 @@ export const tasksReducer = createReducer(initialState, {
     ...state,
     loading: false,
     error: payload,
+  }),
+  [setSelectedTaskID]: (state, { payload }) => ({
+    ...state,
+    selectedTaskId: payload,
   }),
 });

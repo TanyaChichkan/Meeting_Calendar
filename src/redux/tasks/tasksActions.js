@@ -11,3 +11,5 @@ export const deleteTaskError = createAction('tasks/deleteTaskError');
 export const addTaskRequest = createAction('tasks/addTaskRequest');
 export const addTaskSuccess = createAction('tasks/addTaskSuccess');
 export const addTaskError = createAction('tasks/addTaskError');
+
+export const setSelectedTaskID = createAction('tasks/selectTaskID');

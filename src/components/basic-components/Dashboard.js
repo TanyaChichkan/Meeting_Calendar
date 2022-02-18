@@ -1,10 +1,14 @@
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
+import { getSelectedTask } from '../../redux/tasks/tasksSelectors';
+import { deleteTaskOperation } from '../../redux/tasks/tasksOperations';
+
 import { objWithTimeAndValues } from '../../helpers/helpers';
-import MeetingItems from './MeetingItemsList';
+import MeetingItemsList from './MeetingItemsList';
 import CustomPopover from '../assets-components/CustomPopover';
 import Form from '../assets-components/Form';
+import AlertDialog from '../assets-components/AlertDialog';
 
 const ContainerStyled = styled.div`
   position: relative;
@@ -37,8 +41,11 @@ const SpanTimeTextStyled = styled.span`
 const Dashboard = () => {
   const array = objWithTimeAndValues;
   const [anchorEl, setAnchorEl] = useState(null);
+  const [openAlert, setOpenAlert] = useState(false);
+  const dispatch = useDispatch();
+  const taskID = useSelector(getSelectedTask);
 
-  const handleClick = (e) => {
+  const handleClickOpenPopOver = (e) => {
     if (e.target.nodeName === 'DIV') {
       setAnchorEl(e.currentTarget);
     }
@@ -48,6 +55,19 @@ const Dashboard = () => {
     setAnchorEl(null);
   };
 
+  const handleClickOpenAlert = () => {
+    setOpenAlert(true);
+  };
+
+  const handleCloseAlert = () => {
+    setOpenAlert(false);
+  };
+
+  const handleClickAlertRequestAndClose = () => {
+    dispatch(deleteTaskOperation(taskID));
+    setOpenAlert(false);
+  };
+
   return (
     <>
       <ContainerStyled>
@@ -55,15 +75,20 @@ const Dashboard = () => {
           <CellContainerStyled
             key={item.time}
             index={index}
-            onClick={handleClick}
+            onClick={handleClickOpenPopOver}
           >
             <SpanTimeTextStyled index={index}>{item.time}</SpanTimeTextStyled>
           </CellContainerStyled>
         ))}
-        <MeetingItems />
+        <MeetingItemsList onHandleClick={handleClickOpenAlert} />
         <CustomPopover anchorEl={anchorEl} handleClose={handleClosePopOver}>
           <Form handleClose={handleClosePopOver} />
         </CustomPopover>
+        <AlertDialog
+          open={openAlert}
+          handleClose={handleCloseAlert}
+          handleRequestSend={handleClickAlertRequestAndClose}
+        />
       </ContainerStyled>
     </>
   );

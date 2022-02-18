@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { TextField } from '@mui/material';
 import { nanoid } from 'nanoid';
-import { addTaskOperation } from '../../redux/tasksOperations';
+import { addTaskOperation } from '../../redux/tasks/tasksOperations';
 import Wrapper from './Wrapper';
 import ValidationMessage from './ValidationMessage';
 
@@ -121,7 +121,7 @@ const Form = ({ handleClose }) => {
 
         <FieldsetStyled>
           <Wrapper from='input'>
-            <label> Start</label>
+            <label>Start</label>
             <TextField
               id='standard-basic'
               variant='standard'
