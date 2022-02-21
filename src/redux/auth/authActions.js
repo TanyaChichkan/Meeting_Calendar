@@ -15,3 +15,5 @@ export const logOutUserError = createAction('logOut/error');
 export const refreshUserRequest = createAction('refresh/request');
 export const refreshUserSuccess = createAction('refresh/success');
 export const refreshUserError = createAction('refresh/error');
+
+export const setAuthMessage=createAction('auth/setMessage');

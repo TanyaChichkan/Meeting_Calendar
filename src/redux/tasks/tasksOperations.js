@@ -17,7 +17,7 @@ export const fetchTasksOperation = () => async (dispatch) => {
   try {
     const result = await APIServices.fetchAllTasks();
 
-    setTimeout(() => dispatch(fetchTasksSuccess(result.data.data)), 1000);
+    dispatch(fetchTasksSuccess(result.data.data));
   } catch (err) {
     console.log(err);
     dispatch(fetchTasksError());

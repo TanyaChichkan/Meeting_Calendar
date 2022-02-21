@@ -4,7 +4,7 @@ import { Alert } from '@mui/material';
 import { constantsText } from '../../constants/constants';
 import { constantsNumbers } from '../../constants/constants';
 
-const Error = ({ error, message }) => {
+const Error = ({ error, message, severity }) => {
   const [openErrorMsg, setOpenErrorMsg] = useState(false);
 
   useEffect(() => setOpenErrorMsg(true), [error]);
@@ -21,10 +21,10 @@ const Error = ({ error, message }) => {
       open={openErrorMsg}
       autoHideDuration={constantsNumbers.delay}
       onClose={handleCloseErrorMsg}
-      anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-      sx={{ width: '50%' }}
+      anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
+      sx={{ width: '30%' }}
     >
-      <Alert severity='error' sx={{ width: '100%' }}>
+      <Alert severity={severity} sx={{ width: '100%' }}>
         {message}
       </Alert>
     </Snackbar>

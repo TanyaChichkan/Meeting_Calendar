@@ -9,18 +9,37 @@ import Header from '../assets-components/Header';
 import { constantsText } from '../../constants/constants';
 import RegisterForm from '../assets-components/authForm/RegisterForm';
 import LogInForm from '../assets-components/authForm/LogInForm';
-import { getAuthError, getAuthLoader } from '../../redux/auth/authSelectors';
+import {
+  getAuthError,
+  getAuthLoader,
+  getAuthMessage,
+} from '../../redux/auth/authSelectors';
 import { getLoading, getError } from '../../redux/tasks/tasksSelectors';
+import Notification from '../assets-components/Notification';
 
 const SchedulerTracker = () => {
   const authError = useSelector(getAuthError);
   const authLoading = useSelector(getAuthLoader);
   const tasksLoading = useSelector(getLoading);
   const tasksError = useSelector(getError);
+  const message = useSelector(getAuthMessage);
 
   return (
     <>
       <Header />
+
+      {(authError || tasksError) && (
+        <Error
+          errorState={authError || tasksError}
+          message={constantsText.errorMsg}
+          severity='error'
+        />
+      )}
+
+      {message && (
+        <Error errorState={message} message={message} severity='success' />
+      )}
+
       <main>
         <Container>
           <section>
@@ -35,12 +54,6 @@ const SchedulerTracker = () => {
 
       {(authLoading || tasksLoading) && (
         <Loader open={authLoading || tasksLoading ? true : false} />
-      )}
-      {(authError || tasksError) && (
-        <Error
-          errorState={authError || tasksError}
-          message={constantsText.errorMsg}
-        />
       )}
     </>
   );

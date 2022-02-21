@@ -1,13 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getTasks } from '../redux/tasks/tasksSelectors';
-import { getAuthLoggedIn } from '../redux/auth/authSelectors';
 
 const useGroupTasks = () => {
   const [tasksData, setTasksData] = useState([]);
   const tasks = useSelector(getTasks);
-  const isLoggedIn = useSelector(getAuthLoggedIn);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     if (tasks?.length > 1) {

@@ -21,6 +21,7 @@ const initialState = {
   isLoggedIn: false,
   isLoading: false,
   error: '',
+  message: '',
 };
 
 export const authReducer = createReducer(initialState, {
@@ -28,32 +29,50 @@ export const authReducer = createReducer(initialState, {
     ...state,
     isLoading: true,
     error: '',
+    message: '',
   }),
+
   [registerUserSuccess]: (state, { payload }) => ({
     ...state,
     isLoading: false,
-    user: { ...payload },
+    message: "You've registered in successfully. Please, log in now",
   }),
+
   [registerUserError]: (state, { payload }) => ({
     ...state,
     isLoading: false,
     error: payload,
   }),
 
-  [logInUserRequest]: (state, _) => ({ ...state, error: '', isLoading: true }),
+  [logInUserRequest]: (state, _) => ({
+    ...state,
+    error: '',
+    message: '',
+    isLoading: true,
+  }),
+
   [logInUserSuccess]: (state, { payload }) => ({
     ...state,
     isLoading: false,
-    token: payload.token,
+    token: payload.userToken,
     user: { ...payload.user },
     isLoggedIn: true,
+    message: "You've logged in successfully",
   }),
+
   [logInUserError]: (state, { payload }) => ({
     ...state,
     isLoading: false,
     error: payload,
   }),
-  [logOutUserRequest]: (state, _) => ({ ...state, error: '', isLoading: true }),
+
+  [logOutUserRequest]: (state, _) => ({
+    ...state,
+    error: '',
+    message: '',
+    isLoading: true,
+  }),
+
   [logOutUserSuccess]: (state, _) => ({
     ...state,
     isLoading: false,
@@ -61,22 +80,27 @@ export const authReducer = createReducer(initialState, {
     user: { name: '', email: '' },
     isLoggedIn: false,
   }),
+
   [logOutUserError]: (state, { payload }) => ({
     ...state,
     isLoading: false,
     error: payload,
   }),
+
   [refreshUserRequest]: (state, { payload }) => ({
     ...state,
     isLoading: true,
     error: '',
+    message: '',
   }),
+
   [refreshUserSuccess]: (state, { payload }) => ({
     ...state,
     isLoading: false,
     user: { ...payload },
     isLoggedIn: true,
   }),
+
   [refreshUserError]: (state, { payload }) => ({
     ...state,
     isLoading: false,

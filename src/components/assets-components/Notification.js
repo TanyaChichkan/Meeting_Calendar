@@ -1,12 +1,10 @@
 import { Alert } from '@mui/material';
 
-const Notification = ({ message, warningText }) => {
+const Notification = ({ message, severity }) => {
   return (
-    <>
-      <Alert severity='warning' style={{ marginBottom: '20px' }}>
-        {warningText} — <strong>{message}</strong>
-      </Alert>
-    </>
+    <Alert severity={severity} style={{ marginBottom: '20px' }}>
+      <strong>{message}</strong>
+    </Alert>
   );
 };
 
