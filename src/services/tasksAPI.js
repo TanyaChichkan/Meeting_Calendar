@@ -1,7 +1,5 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = ' http://localhost:8083';
-
 const fetchAllTasks = () => {
   return axios.get('/api/tasks');
 };

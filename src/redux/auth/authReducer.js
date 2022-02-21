@@ -41,7 +41,7 @@ export const authReducer = createReducer(initialState, {
   [registerUserError]: (state, { payload }) => ({
     ...state,
     isLoading: false,
-    error: payload,
+    error: 'Check your credentials or log in',
   }),
 
   [logInUserRequest]: (state, _) => ({
@@ -63,7 +63,7 @@ export const authReducer = createReducer(initialState, {
   [logInUserError]: (state, { payload }) => ({
     ...state,
     isLoading: false,
-    error: payload,
+    error: 'Check you credentials or register',
   }),
 
   [logOutUserRequest]: (state, _) => ({

@@ -77,11 +77,13 @@ export const refreshUserOperation = () => async (dispatch, getState) => {
 
     try {
       const result = await userAPIServices.refreshUser();
-      console.log(result);
+      if (result.data.code === 401) {
+        throwError(result.data.status);
+      }
       setTimeout(() => dispatch(refreshUserSuccess(result.data.user)), 1000);
     } catch (err) {
       console.log(err);
-      dispatch(refreshUserError);
+      dispatch(refreshUserError(err.message));
     }
   }
 

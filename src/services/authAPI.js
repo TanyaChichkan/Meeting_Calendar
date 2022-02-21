@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+axios.defaults.baseURL = 'https://calm-springs-60398.herokuapp.com';
+
 const registerUser = (user) => {
   return axios.post('auth/register', user);
 };

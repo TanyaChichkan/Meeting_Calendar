@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 
 import { Routes, Route } from 'react-router-dom';
-import Error from '../info-components/Error';
+import Notification from '../info-components/Notification';
 import Loader from '../info-components/Loader';
 import Dashboard from './Dashboard';
 import Container from '../assets-components/Container';
@@ -15,7 +15,6 @@ import {
   getAuthMessage,
 } from '../../redux/auth/authSelectors';
 import { getLoading, getError } from '../../redux/tasks/tasksSelectors';
-import Notification from '../assets-components/Notification';
 
 const SchedulerTracker = () => {
   const authError = useSelector(getAuthError);
@@ -27,9 +26,8 @@ const SchedulerTracker = () => {
   return (
     <>
       <Header />
-
       {(authError || tasksError) && (
-        <Error
+        <Notification
           errorState={authError || tasksError}
           message={constantsText.errorMsg}
           severity='error'
@@ -37,7 +35,19 @@ const SchedulerTracker = () => {
       )}
 
       {message && (
-        <Error errorState={message} message={message} severity='success' />
+        <Notification
+          errorState={message}
+          message={message}
+          severity='success'
+        />
+      )}
+
+      {(authError || tasksError) && (
+        <Notification
+          errorState={authError || tasksError}
+          severity='error'
+          error={authError || tasksError}
+        />
       )}
 
       <main>

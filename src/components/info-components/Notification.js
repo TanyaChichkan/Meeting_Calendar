@@ -4,31 +4,33 @@ import { Alert } from '@mui/material';
 import { constantsText } from '../../constants/constants';
 import { constantsNumbers } from '../../constants/constants';
 
-const Error = ({ error, message, severity }) => {
+const Notification = ({ error, message, severity }) => {
   const [openErrorMsg, setOpenErrorMsg] = useState(false);
 
   useEffect(() => setOpenErrorMsg(true), [error]);
 
-  const handleCloseErrorMsg = (event, reason) => {
+  const handleCloseErrorMsg = (_, reason) => {
     if (reason === constantsText.clickaway) {
       return;
     }
 
     setOpenErrorMsg(false);
   };
+
   return (
     <Snackbar
       open={openErrorMsg}
       autoHideDuration={constantsNumbers.delay}
       onClose={handleCloseErrorMsg}
       anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-      sx={{ width: '30%' }}
+      sx={{ width: '32%' }}
+      style={{ right: '1%', top: '15%' }}
     >
       <Alert severity={severity} sx={{ width: '100%' }}>
-        {message}
+        {severity === 'error' ? `Something went wrong. ${error}!!!` : message}
       </Alert>
     </Snackbar>
   );
 };
 
-export default Error;
+export default Notification;
