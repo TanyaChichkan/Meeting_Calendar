@@ -10,6 +10,9 @@ import {
   logOutUserRequest,
   logOutUserSuccess,
   logOutUserError,
+  refreshUserRequest,
+  refreshUserError,
+  refreshUserSuccess,
 } from './authActions';
 
 const throwError = (msg) => {
@@ -52,18 +55,32 @@ export const logInOperation = (userData) => async (dispatch) => {
   }
 };
 
-export const logOutOperation = () => async (dispatch, getState) => {
-  console.log(getState());
+export const logOutOperation = () => async (dispatch) => {
   dispatch(logOutUserRequest());
   try {
-    const result = await userAPIServices.logoutUser();
-    console.log(result);
-    const data = { token: result.data.token, user: result.data.user };
-    console.log(data);
+    await userAPIServices.logoutUser();
     token.unset();
     setTimeout(() => dispatch(logOutUserSuccess()), 1000);
   } catch (err) {
     console.log(err);
     dispatch(logOutUserError(err.message));
   }
+};
+
+export const refreshUserOperation = () => async (dispatch, getState) => {
+  const userToken = getState().auth.token;
+  if (token) {
+    dispatch(refreshUserRequest());
+    token.set(userToken);
+
+    try {
+      const result = await userAPIServices.refreshUser();
+      setTimeout(() => dispatch(refreshUserSuccess(result.data.user)), 1000);
+    } catch (err) {
+      console.log(err);
+      dispatch(refreshUserError);
+    }
+  }
+
+  return;
 };

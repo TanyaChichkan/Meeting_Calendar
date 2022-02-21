@@ -1,35 +1,38 @@
 import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { getTasks } from '../redux/tasks/tasksSelectors';
+import { getAuthLoggedIn } from '../redux/auth/authSelectors';
 
 const useGroupTasks = () => {
-  const [tasksData, setTasksData] = useState();
+  const [tasksData, setTasksData] = useState([]);
   const tasks = useSelector(getTasks);
-
-  console.log(tasks);
+  const isLoggedIn = useSelector(getAuthLoggedIn);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const groupedByIntersections = tasks.reduce((acc, el, index) => {
-      if (index !== 0) {
-        let lastArray = acc[acc.length - 1];
-        const lastArrayStart = lastArray[lastArray.length - 1].start;
-        const lastArrayDuration = lastArray[lastArray.length - 1].duration;
+    if (tasks?.length > 1) {
+      const groupedByIntersections = tasks.reduce((acc, el, index) => {
+        if (index !== 0) {
+          let lastArray = acc[acc.length - 1];
+          const lastArrayStart = lastArray[lastArray.length - 1].start;
+          const lastArrayDuration = lastArray[lastArray.length - 1].duration;
 
-        console.log(lastArray);
-
-        if (
-          el.start < lastArrayStart + lastArrayDuration ||
-          el.start === lastArrayStart
-        ) {
-          lastArray.push(el);
-          return acc;
+          if (
+            el.start < lastArrayStart + lastArrayDuration ||
+            el.start === lastArrayStart
+          ) {
+            lastArray.push(el);
+            return acc;
+          }
         }
-      }
 
-      return [...acc, [el]];
-    }, []);
+        return [...acc, [el]];
+      }, []);
 
-    setTasksData(groupedByIntersections);
+      setTasksData(groupedByIntersections);
+    } else {
+      setTasksData(tasks);
+    }
   }, [tasks]);
 
   return { tasksData };

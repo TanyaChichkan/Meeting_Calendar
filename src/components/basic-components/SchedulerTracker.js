@@ -1,4 +1,5 @@
 import { useSelector } from 'react-redux';
+
 import { Routes, Route } from 'react-router-dom';
 import Error from '../info-components/Error';
 import Loader from '../info-components/Loader';
@@ -9,10 +10,13 @@ import { constantsText } from '../../constants/constants';
 import RegisterForm from '../assets-components/authForm/RegisterForm';
 import LogInForm from '../assets-components/authForm/LogInForm';
 import { getAuthError, getAuthLoader } from '../../redux/auth/authSelectors';
+import { getLoading, getError } from '../../redux/tasks/tasksSelectors';
 
 const SchedulerTracker = () => {
-  const error = useSelector(getAuthError);
-  const isLoading = useSelector(getAuthLoader);
+  const authError = useSelector(getAuthError);
+  const authLoading = useSelector(getAuthLoader);
+  const tasksLoading = useSelector(getLoading);
+  const tasksError = useSelector(getError);
 
   return (
     <>
@@ -29,8 +33,15 @@ const SchedulerTracker = () => {
         </Container>
       </main>
 
-      {isLoading && <Loader open={isLoading ? true : false} />}
-      {error && <Error errorState={error} message={constantsText.errorMsg} />}
+      {(authLoading || tasksLoading) && (
+        <Loader open={authLoading || tasksLoading ? true : false} />
+      )}
+      {(authError || tasksError) && (
+        <Error
+          errorState={authError || tasksError}
+          message={constantsText.errorMsg}
+        />
+      )}
     </>
   );
 };

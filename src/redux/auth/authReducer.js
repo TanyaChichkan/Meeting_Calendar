@@ -10,6 +10,9 @@ import {
   logOutUserRequest,
   logOutUserSuccess,
   logOutUserError,
+  refreshUserRequest,
+  refreshUserSuccess,
+  refreshUserError,
 } from './authActions';
 
 const initialState = {
@@ -62,5 +65,23 @@ export const authReducer = createReducer(initialState, {
     ...state,
     isLoading: false,
     error: payload,
+  }),
+  [refreshUserRequest]: (state, { payload }) => ({
+    ...state,
+    isLoading: true,
+    error: '',
+  }),
+  [refreshUserSuccess]: (state, { payload }) => ({
+    ...state,
+    isLoading: false,
+    user: { ...payload },
+    isLoggedIn: true,
+  }),
+  [refreshUserError]: (state, { payload }) => ({
+    ...state,
+    isLoading: false,
+    isLoggedIn: false,
+    error: payload,
+    token: null,
   }),
 });

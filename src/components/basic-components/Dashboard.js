@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { getSelectedTask } from '../../redux/tasks/tasksSelectors';
 import { deleteTaskOperation } from '../../redux/tasks/tasksOperations';
-import { fetchTasksOperation } from '../../redux/tasks/tasksOperations';
 
 import { objWithTimeAndValues } from '../../helpers/helpers';
 import MeetingItemsList from './MeetingItemsList';
@@ -13,6 +12,8 @@ import Form from '../assets-components/Form';
 import AlertDialog from '../assets-components/AlertDialog';
 
 import { getAuthLoggedIn } from '../../redux/auth/authSelectors';
+import useGroupTasks from '../../custom-hooks/useGroupTasks';
+import { fetchTasksOperation } from '../../redux/tasks/tasksOperations';
 
 const ContainerStyled = styled.div`
   position: relative;
@@ -49,7 +50,14 @@ const Dashboard = () => {
   const dispatch = useDispatch();
   const taskID = useSelector(getSelectedTask);
   const isLoggedIn = useSelector(getAuthLoggedIn);
+
+  const tasks = useGroupTasks().tasksData;
+
   let navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(fetchTasksOperation());
+  }, [dispatch]);
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -57,12 +65,8 @@ const Dashboard = () => {
     }
   }, [isLoggedIn, navigate]);
 
-  useEffect(() => {
-    dispatch(fetchTasksOperation());
-  }, [dispatch]);
-
   const handleClickOpenPopOver = (e) => {
-    if (e.target.nodeName === 'DIV') {
+    if (e.currentTarget.nodeName === 'DIV') {
       setAnchorEl(e.currentTarget);
     }
   };
@@ -96,7 +100,11 @@ const Dashboard = () => {
             <SpanTimeTextStyled index={index}>{item.time}</SpanTimeTextStyled>
           </CellContainerStyled>
         ))}
-        <MeetingItemsList onHandleClick={handleClickOpenAlert} />
+
+        {isLoggedIn && tasks?.length ? (
+          <MeetingItemsList onHandleClick={handleClickOpenAlert} />
+        ) : null}
+
         <CustomPopover anchorEl={anchorEl} handleClose={handleClosePopOver}>
           <Form handleClose={handleClosePopOver} />
         </CustomPopover>

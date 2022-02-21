@@ -1,11 +1,8 @@
 import styled from 'styled-components';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Tooltip } from '@mui/material';
-import { getTasks } from '../../redux/tasks/tasksSelectors';
 import { setSelectedTaskID } from '../../redux/tasks/tasksActions';
-import { useEffect } from 'react';
 import useGroupTasks from '../../custom-hooks/useGroupTasks';
-import { style } from '@mui/system';
 
 const ItemStyled = styled.li`
   position: absolute;
@@ -16,6 +13,8 @@ const ItemStyled = styled.li`
 
   background-color: #e2ecf5;
   border-left: 2px solid #6e9ecf;
+
+  pointer-events: initial;
 `;
 
 const TextStyled = styled.p`
@@ -26,65 +25,82 @@ const TextStyled = styled.p`
   overflow: hidden;
 `;
 
-function MeetingItemsList({ onHandleClick }) {
-  const tasksArrayData = useGroupTasks().tasksData;
+function MeetingItemsList({ onHandleClick, data }) {
   const dispatch = useDispatch();
-
-  console.log(tasksArrayData);
+  const tasksArrayData = useGroupTasks().tasksData;
 
   const handleClick = (e) => {
-    const { id } = e.target.dataset;
+    const { id } = e.currentTarget.dataset;
     onHandleClick();
     dispatch(setSelectedTaskID(id));
   };
 
   return (
-    <ul style={{ display: 'flex' }}>
-      {tasksArrayData?.length &&
-        tasksArrayData.map((el, idx) => {
-          if (el.length > 1) {
-            const width = 200 / el.length;
-            return (
-              <ul key={el[0].title + idx}>
-                {el.map((item, index) => {
-                  const left = index === 0 ? `50px` : `${50 + width * index}px`;
-                  return (
-                    <ItemStyled
-                      onClick={handleClick}
-                      data-id={item._id}
-                      key={item._id}
-                      start={item.start}
-                      duration={item.duration}
-                      style={{
-                        width: `${width}px`,
-                        left,
-                      }}
-                    >
-                      <Tooltip title={item.title} placement='bottom-start'>
-                        <TextStyled>{item.title}</TextStyled>
-                      </Tooltip>
-                    </ItemStyled>
-                  );
-                })}
-              </ul>
-            );
-          }
+    <>
+      {tasksArrayData?.length ? (
+        <ul style={{ display: 'flex' }}>
+          {tasksArrayData.map((el, idx) => {
+            if (Array.isArray(el)) {
+              if (el.length > 1) {
+                const width = 200 / el.length;
+                return (
+                  <ul key={el[0].title + idx}>
+                    {el.map((item, index) => {
+                      const left =
+                        index === 0 ? `50px` : `${50 + width * index}px`;
+                      return (
+                        <ItemStyled
+                          onClick={handleClick}
+                          data-id={item._id}
+                          key={item._id}
+                          start={item.start}
+                          duration={item.duration}
+                          style={{
+                            width: `${width}px`,
+                            left,
+                          }}
+                        >
+                          <Tooltip title={item.title} placement='bottom-start'>
+                            <TextStyled>{item.title}</TextStyled>
+                          </Tooltip>
+                        </ItemStyled>
+                      );
+                    })}
+                  </ul>
+                );
+              }
 
-          return (
-            <ItemStyled
-              key={el[0]._id}
-              start={el[0].start}
-              duration={el[0].duration}
-              onClick={handleClick}
-              data-id={el[0]._id}
-            >
-              <Tooltip title={el[0].title} placement='bottom-start'>
-                <TextStyled>{el[0].title}</TextStyled>
-              </Tooltip>
-            </ItemStyled>
-          );
-        })}
-    </ul>
+              return (
+                <ItemStyled
+                  key={el[0]._id}
+                  start={el[0].start}
+                  duration={el[0].duration}
+                  onClick={handleClick}
+                  data-id={el[0]._id}
+                >
+                  <Tooltip title={el[0].title} placement='bottom-start'>
+                    <TextStyled>{el[0].title}</TextStyled>
+                  </Tooltip>
+                </ItemStyled>
+              );
+            }
+            return (
+              <ItemStyled
+                key={el._id}
+                start={el.start}
+                duration={el.duration}
+                onClick={handleClick}
+                data-id={el._id}
+              >
+                <Tooltip title={el.title} placement='bottom-start'>
+                  <TextStyled>{el.title}</TextStyled>
+                </Tooltip>
+              </ItemStyled>
+            );
+          })}
+        </ul>
+      ) : null}
+    </>
   );
 }
 

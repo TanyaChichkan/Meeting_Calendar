@@ -13,6 +13,7 @@ import APIServices from '../../services/tasksAPI';
 
 export const fetchTasksOperation = () => async (dispatch) => {
   dispatch(fetchTasksRequest());
+
   try {
     const result = await APIServices.fetchAllTasks();
 
