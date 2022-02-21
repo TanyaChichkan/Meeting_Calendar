@@ -15,6 +15,7 @@ export const fetchTasksOperation = () => async (dispatch) => {
   dispatch(fetchTasksRequest());
   try {
     const result = await APIServices.fetchAllTasks();
+
     setTimeout(() => dispatch(fetchTasksSuccess(result.data.data)), 1000);
   } catch (err) {
     console.log(err);
@@ -38,6 +39,8 @@ export const addTaskOperation = (task) => async (dispatch) => {
   dispatch(addTaskRequest());
   try {
     const result = await APIServices.addTask(task);
+    console.log(result);
+
     setTimeout(() => dispatch(addTaskSuccess(result.data.data)), 1000);
   } catch (err) {
     console.log(err.message);

@@ -47,7 +47,7 @@ export const tasksReducer = createReducer(initialState, {
   [addTaskSuccess]: (state, { payload }) => ({
     ...state,
     loading: false,
-    tasksList: [...state.tasksList, payload],
+    tasksList: [...payload.tasks],
   }),
   [addTaskError]: (state, { payload }) => ({
     ...state,

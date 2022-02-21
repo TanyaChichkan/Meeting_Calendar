@@ -1,16 +1,16 @@
 import axios from 'axios';
 
-const register = () => {
-  return axios.post('/register');
+const registerUser = (user) => {
+  return axios.post('auth/register', user);
 };
 
-const login = (user) => {
-  return axios.post('/login', user);
+const loginUser = (user) => {
+  return axios.post('auth/login', user);
 };
 
-const logout = (id) => {
-  return axios.post('/logout');
+const logoutUser = (id) => {
+  return axios.post('auth/logout');
 };
 
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { register, login, logout };
+export default { registerUser, loginUser, logoutUser };

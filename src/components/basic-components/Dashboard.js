@@ -1,14 +1,18 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { getSelectedTask } from '../../redux/tasks/tasksSelectors';
 import { deleteTaskOperation } from '../../redux/tasks/tasksOperations';
+import { fetchTasksOperation } from '../../redux/tasks/tasksOperations';
 
 import { objWithTimeAndValues } from '../../helpers/helpers';
 import MeetingItemsList from './MeetingItemsList';
 import CustomPopover from '../assets-components/CustomPopover';
 import Form from '../assets-components/Form';
 import AlertDialog from '../assets-components/AlertDialog';
+
+import { getAuthLoggedIn } from '../../redux/auth/authSelectors';
 
 const ContainerStyled = styled.div`
   position: relative;
@@ -44,6 +48,18 @@ const Dashboard = () => {
   const [openAlert, setOpenAlert] = useState(false);
   const dispatch = useDispatch();
   const taskID = useSelector(getSelectedTask);
+  const isLoggedIn = useSelector(getAuthLoggedIn);
+  let navigate = useNavigate();
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate(`/login`);
+    }
+  }, [isLoggedIn, navigate]);
+
+  useEffect(() => {
+    dispatch(fetchTasksOperation());
+  }, [dispatch]);
 
   const handleClickOpenPopOver = (e) => {
     if (e.target.nodeName === 'DIV') {
