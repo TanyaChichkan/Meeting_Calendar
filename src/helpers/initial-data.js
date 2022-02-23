@@ -1,8 +1,6 @@
-// export const createArrayWithMinutes = (start, stop, step) =>
-//   Array.from({ length: (stop - start) / step + 1 }, (_, i) => start + i * step);
-
-// const array = createArrayWithMinutes(0, 540, 30);
-
+import RegisterForm from '../components/assets-components/authForm/RegisterForm';
+import LogInForm from '../components/assets-components/authForm/LogInForm';
+import Dashboard from '../components/basic-components/Dashboard';
 export const timeArray = [
   '8:00 ',
   '8:30 ',
@@ -25,7 +23,8 @@ export const timeArray = [
   '17:00',
 ];
 
-// export const objWithTimeAndValues = array.reduce(
-//   (acc, el, i) => acc.concat({ time: timeArray[i], valueMinutes: el }),
-//   []
-// );
+export const pathArray = [
+  { path: '/register', element: <RegisterForm /> },
+  { path: '/login', element: <LogInForm /> },
+  { path: '/dashboard', element: <Dashboard /> },
+];

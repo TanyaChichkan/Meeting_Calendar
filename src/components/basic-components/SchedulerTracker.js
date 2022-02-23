@@ -1,20 +1,23 @@
 import { useSelector } from 'react-redux';
-
 import { Routes, Route } from 'react-router-dom';
+
+import { pathArray } from '../../helpers/initial-data';
+import { constantsText } from '../../constants/constants';
+
 import Notification from '../info-components/Notification';
 import Loader from '../info-components/Loader';
-import Dashboard from './Dashboard';
 import Container from '../assets-components/Container';
 import Header from '../assets-components/Header';
-import { constantsText } from '../../constants/constants';
-import RegisterForm from '../assets-components/authForm/RegisterForm';
-import LogInForm from '../assets-components/authForm/LogInForm';
 import {
   getAuthError,
   getAuthLoader,
   getAuthMessage,
 } from '../../redux/auth/authSelectors';
-import { getLoading, getError } from '../../redux/tasks/tasksSelectors';
+import {
+  getLoading,
+  getError,
+  getTasks,
+} from '../../redux/tasks/tasksSelectors';
 
 const SchedulerTracker = () => {
   const authError = useSelector(getAuthError);
@@ -22,6 +25,7 @@ const SchedulerTracker = () => {
   const tasksLoading = useSelector(getLoading);
   const tasksError = useSelector(getError);
   const message = useSelector(getAuthMessage);
+  const tasksList = useSelector(getTasks);
 
   return (
     <>
@@ -30,7 +34,7 @@ const SchedulerTracker = () => {
         <Notification
           errorState={authError || tasksError}
           message={constantsText.errorMsg}
-          severity='error'
+          severity={constantsText.error}
         />
       )}
 
@@ -38,14 +42,14 @@ const SchedulerTracker = () => {
         <Notification
           errorState={message}
           message={message}
-          severity='success'
+          severity={constantsText.success}
         />
       )}
 
       {(authError || tasksError) && (
         <Notification
           errorState={authError || tasksError}
-          severity='error'
+          severity={constantsText.error}
           error={authError || tasksError}
         />
       )}
@@ -54,15 +58,19 @@ const SchedulerTracker = () => {
         <Container>
           <section>
             <Routes>
-              <Route path='/register' element={<RegisterForm />} />
-              <Route path='/login' element={<LogInForm />} />
-              <Route path='/dashboard' element={<Dashboard />} />
+              {pathArray.map((item) => (
+                <Route
+                  key={item.path}
+                  path={item.path}
+                  element={item.element}
+                />
+              ))}
             </Routes>
           </section>
         </Container>
       </main>
 
-      {(authLoading || tasksLoading) && (
+      {(authLoading || (tasksLoading && tasksList.length)) && (
         <Loader open={authLoading || tasksLoading ? true : false} />
       )}
     </>

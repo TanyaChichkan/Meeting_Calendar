@@ -1,19 +1,13 @@
 import { Link } from 'react-router-dom';
+import { constantsText } from '../../constants/constants';
+import Nav from '../assets-components/Nav';
 
 const AuthNav = () => {
   return (
-    <div>
-      <nav
-        style={{
-          width: '150px',
-          display: 'flex',
-          justifyContent: 'space-between',
-        }}
-      >
-        <Link to='/register'>Sign Up</Link>
-        <Link to='/login'>Sign In</Link>
-      </nav>
-    </div>
+    <Nav parent={constantsText.authNav}>
+      <Link to={constantsText.registerLink}>Sign Up</Link>
+      <Link to={constantsText.loginLink}>Sign In</Link>
+    </Nav>
   );
 };
 

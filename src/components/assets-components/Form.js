@@ -6,6 +6,7 @@ import { nanoid } from 'nanoid';
 import { addTaskOperation } from '../../redux/tasks/tasksOperations';
 import Wrapper from './Wrapper';
 import ValidationMessage from './ValidationMessage';
+import { constantsText } from '../../constants/constants';
 
 const FormStyled = styled.form`
   display: flex;
@@ -31,8 +32,8 @@ const FieldsetStyled = styled.fieldset`
 
 const Form = ({ handleClose }) => {
   const [state, setState] = useState({
-    startTime: '08:00',
-    finishTime: '09:00',
+    startTime: constantsText.initialStartTime,
+    finishTime: constantsText.initialFinishTime,
     title: '',
   });
   const [validationError, setValidationError] = useState({
@@ -46,38 +47,41 @@ const Form = ({ handleClose }) => {
     const { startTime, finishTime } = state;
     setValidationError({ start: '', finish: '', general: '' });
 
-    if (startTime < '08:00') {
+    if (startTime < constantsText.initialStartTime) {
       setValidationError((prev) => ({
         ...prev,
-        start: 'Min start time is 08:00',
+        start: constantsText.minTimeMsg,
       }));
     }
 
-    if (finishTime > '17:00') {
+    if (finishTime > constantsText.finishTime) {
       setValidationError((prev) => ({
         ...prev,
-        finish: 'Max finish time is 17:00',
+        finish: constantsText.maxTimeMsg,
       }));
     }
 
-    if (startTime < '08:00' && finishTime > '17:00') {
+    if (
+      startTime < constantsText.initialStartTime &&
+      finishTime > constantsText.finishTime
+    ) {
       setValidationError({
-        start: 'Min start time is 08:00',
-        finish: 'Max finish time is 17:00',
+        start: constantsText.minTimeMsg,
+        finish: constantsText.maxTimeMsg,
       });
     }
 
     if (startTime > finishTime) {
       setValidationError((prev) => ({
         ...prev,
-        general: 'Start time is bigger than finish time',
+        general: constantsText.startTimeBiggerFinishTimeMsg,
       }));
     }
 
     if (startTime === finishTime) {
       setValidationError((prev) => ({
         ...prev,
-        general: "Start time can't be the same as finish time",
+        general: constantsText.startTimeSameWithFinishTime,
       }));
     }
   }, [state]);
@@ -96,7 +100,11 @@ const Form = ({ handleClose }) => {
 
     dispatch(addTaskOperation({ ...state, id }));
     handleClose();
-    setState({ startTime: '08:00', finishTime: '09:00', title: '' });
+    setState({
+      startTime: constantsText.initialStartTime,
+      finishTime: constantsText.initialFinishTime,
+      title: '',
+    });
   };
 
   const btnDisabledCondition =
@@ -108,43 +116,43 @@ const Form = ({ handleClose }) => {
 
       <FormStyled onSubmit={handleSubmit}>
         <TextField
-          id='fullWidth'
+          id={constantsText.textFieldFWId}
           label='Task'
-          variant='standard'
+          variant={constantsText.textFieldVariant}
           type='text'
           value={state.title}
           required
-          name='title'
+          name={constantsText.inputNameTitle}
           onChange={handleChange}
-          size='normal'
+          size={constantsText.textFieldSize}
         />
 
         <FieldsetStyled>
           <Wrapper from='input'>
             <label>Start</label>
             <TextField
-              id='standard-basic'
-              variant='standard'
+              id={constantsText.textFieldStandard}
+              variant={constantsText.textFieldVariant}
               type='time'
               value={state.startTime}
               required
-              name='startTime'
+              name={constantsText.inputNameStart}
               onChange={handleChange}
-              size='normal'
+              size={constantsText.textFieldSize}
             />
           </Wrapper>
 
           <Wrapper from='input'>
             <label>Finish</label>
             <TextField
-              id='standard-basic'
-              variant='standard'
+              id={constantsText.textFieldStandard}
+              variant={constantsText.textFieldVariant}
               type='time'
               value={state.finishTime}
               required
-              name='finishTime'
+              name={constantsText.inputNameFinish}
               onChange={handleChange}
-              size='normal'
+              size={constantsText.textFieldSize}
             />
           </Wrapper>
         </FieldsetStyled>

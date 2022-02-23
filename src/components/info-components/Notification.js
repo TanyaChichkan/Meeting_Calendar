@@ -27,7 +27,9 @@ const Notification = ({ error, message, severity }) => {
       style={{ right: '1%', top: '15%' }}
     >
       <Alert severity={severity} sx={{ width: '100%' }}>
-        {severity === 'error' ? `Something went wrong. ${error}!!!` : message}
+        {severity === constantsText.error
+          ? `${constantsText.errorInitialMsg}. ${error}!!!`
+          : message}
       </Alert>
     </Snackbar>
   );

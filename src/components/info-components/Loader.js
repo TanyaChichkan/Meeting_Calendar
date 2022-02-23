@@ -1,5 +1,6 @@
 import { CircularProgress } from '@mui/material';
 import Backdrop from '@mui/material/Backdrop';
+import { constantsText } from '../../constants/constants';
 
 const Loader = ({ open }) => {
   return (
@@ -12,7 +13,7 @@ const Loader = ({ open }) => {
       }}
       open={open}
     >
-      <CircularProgress color='inherit' />
+      <CircularProgress color={constantsText.loaderColor} />
       <p>...loading</p>
     </Backdrop>
   );

@@ -1,4 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
+import { constantsText } from '../../constants/constants';
 
 import {
   registerUserRequest,
@@ -32,19 +33,19 @@ export const authReducer = createReducer(initialState, {
     message: '',
   }),
 
-  [registerUserSuccess]: (state, { payload }) => ({
+  [registerUserSuccess]: (state) => ({
     ...state,
     isLoading: false,
-    message: "You've registered in successfully. Please, log in now",
+    message: constantsText.authMsg.registrationMsgSuccess,
   }),
 
-  [registerUserError]: (state, { payload }) => ({
+  [registerUserError]: (state) => ({
     ...state,
     isLoading: false,
-    error: 'Check your credentials or log in',
+    error: constantsText.authMsg.registrationMsgError,
   }),
 
-  [logInUserRequest]: (state, _) => ({
+  [logInUserRequest]: (state) => ({
     ...state,
     error: '',
     message: '',
@@ -57,23 +58,23 @@ export const authReducer = createReducer(initialState, {
     token: payload.userToken,
     user: { ...payload.user },
     isLoggedIn: true,
-    message: "You've logged in successfully",
+    message: constantsText.authMsg.logInMsgSuccess,
   }),
 
-  [logInUserError]: (state, { payload }) => ({
+  [logInUserError]: (state) => ({
     ...state,
     isLoading: false,
-    error: 'Check you credentials or register',
+    error: constantsText.authMsg.logInMsgError,
   }),
 
-  [logOutUserRequest]: (state, _) => ({
+  [logOutUserRequest]: (state) => ({
     ...state,
     error: '',
     message: '',
     isLoading: true,
   }),
 
-  [logOutUserSuccess]: (state, _) => ({
+  [logOutUserSuccess]: (state) => ({
     ...state,
     isLoading: false,
     token: null,
@@ -87,7 +88,7 @@ export const authReducer = createReducer(initialState, {
     error: payload,
   }),
 
-  [refreshUserRequest]: (state, { payload }) => ({
+  [refreshUserRequest]: (state) => ({
     ...state,
     isLoading: true,
     error: '',

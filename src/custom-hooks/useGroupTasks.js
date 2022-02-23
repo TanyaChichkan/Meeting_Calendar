@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { getTasks } from '../redux/tasks/tasksSelectors';
 
 const useGroupTasks = () => {

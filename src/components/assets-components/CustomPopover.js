@@ -1,10 +1,11 @@
 import { Popover } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { IconButton } from '@mui/material';
+import { constantsText } from '../../constants/constants';
 
 const CustomPopover = ({ anchorEl, handleClose, children }) => {
   const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
+  const id = open ? constantsText.simplePopOver : undefined;
 
   return (
     <Popover

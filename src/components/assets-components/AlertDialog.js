@@ -1,10 +1,10 @@
 import { Button, Dialog, DialogActions, DialogTitle } from '@mui/material';
-
+import { constantsText } from '../../constants/constants';
 const AlertDialog = ({ open, handleClose, handleRequestSend }) => {
   return (
     <Dialog open={open} onClose={handleClose}>
       <DialogTitle id='alert-dialog-title'>
-        {'Do you want to delete a task'}
+        {constantsText.deleteTaskMsg}
       </DialogTitle>
 
       <DialogActions>

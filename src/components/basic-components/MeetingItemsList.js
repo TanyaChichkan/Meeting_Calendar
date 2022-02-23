@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { Tooltip } from '@mui/material';
 import { setSelectedTaskID } from '../../redux/tasks/tasksActions';
 import useGroupTasks from '../../custom-hooks/useGroupTasks';
+import { constantsNumbers } from '../../constants/constants';
 
 const ItemStyled = styled.li`
   position: absolute;
@@ -42,12 +43,17 @@ function MeetingItemsList({ onHandleClick, data }) {
           {tasksArrayData.map((el, idx) => {
             if (Array.isArray(el)) {
               if (el.length > 1) {
-                const width = 200 / el.length;
+                const width = constantsNumbers.initialTaskItemWidth / el.length;
                 return (
                   <ul key={el[0].title + idx}>
                     {el.map((item, index) => {
                       const left =
-                        index === 0 ? `50px` : `${50 + width * index}px`;
+                        index === 0
+                          ? `50px`
+                          : `${
+                              constantsNumbers.initialTaskLeftPosition +
+                              width * index
+                            }px`;
                       return (
                         <ItemStyled
                           onClick={handleClick}
