@@ -12,6 +12,9 @@ export const constantsText = {
   // iconUp: '#icon-arrow-up',
   // iconDown: '#icon-arrow-down',
   // getInfoEndpoint: '/summary',
+  loginLink: '/login',
+  dashboardLink: '/dashboard',
+  divTag: 'DIV',
 };
 
 export const constantsNumbers = {

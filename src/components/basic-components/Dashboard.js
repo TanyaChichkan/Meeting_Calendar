@@ -2,18 +2,22 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { getSelectedTask } from '../../redux/tasks/tasksSelectors';
-import { deleteTaskOperation } from '../../redux/tasks/tasksOperations';
 
-import { objWithTimeAndValues } from '../../helpers/helpers';
+import { timeArray } from '../../helpers/initial-data';
+import { constantsText } from '../../constants/constants';
+import useGroupTasks from '../../custom-hooks/useGroupTasks';
+
+import { getSelectedTask } from '../../redux/tasks/tasksSelectors';
+import { getAuthLoggedIn } from '../../redux/auth/authSelectors';
+import {
+  deleteTaskOperation,
+  fetchTasksOperation,
+} from '../../redux/tasks/tasksOperations';
+
 import MeetingItemsList from './MeetingItemsList';
 import CustomPopover from '../assets-components/CustomPopover';
 import Form from '../assets-components/Form';
 import AlertDialog from '../assets-components/AlertDialog';
-
-import { getAuthLoggedIn } from '../../redux/auth/authSelectors';
-import useGroupTasks from '../../custom-hooks/useGroupTasks';
-import { fetchTasksOperation } from '../../redux/tasks/tasksOperations';
 
 const ContainerStyled = styled.div`
   position: relative;
@@ -44,29 +48,27 @@ const SpanTimeTextStyled = styled.span`
 `;
 
 const Dashboard = () => {
-  const array = objWithTimeAndValues;
   const [anchorEl, setAnchorEl] = useState(null);
   const [openAlert, setOpenAlert] = useState(false);
   const dispatch = useDispatch();
   const taskID = useSelector(getSelectedTask);
   const isLoggedIn = useSelector(getAuthLoggedIn);
-
   const tasks = useGroupTasks().tasksData;
-
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    dispatch(fetchTasksOperation());
-  }, [dispatch]);
+    isLoggedIn && dispatch(fetchTasksOperation());
+  }, [dispatch, isLoggedIn]);
 
   useEffect(() => {
     if (!isLoggedIn) {
-      navigate(`/login`);
+      navigate(constantsText.loginLink);
     }
   }, [isLoggedIn, navigate]);
 
+  //popover component open/close
   const handleClickOpenPopOver = (e) => {
-    if (e.currentTarget.nodeName === 'DIV') {
+    if (e.currentTarget.nodeName === constantsText.divTag) {
       setAnchorEl(e.currentTarget);
     }
   };
@@ -75,6 +77,7 @@ const Dashboard = () => {
     setAnchorEl(null);
   };
 
+  //alert component open/close
   const handleClickOpenAlert = () => {
     setOpenAlert(true);
   };
@@ -83,6 +86,7 @@ const Dashboard = () => {
     setOpenAlert(false);
   };
 
+  //close alert after submitting delete operation
   const handleClickAlertRequestAndClose = () => {
     dispatch(deleteTaskOperation(taskID));
     setOpenAlert(false);
@@ -91,13 +95,13 @@ const Dashboard = () => {
   return (
     <>
       <ContainerStyled>
-        {array.map((item, index) => (
+        {timeArray.map((item, index) => (
           <CellContainerStyled
-            key={item.time}
+            key={item}
             index={index}
             onClick={handleClickOpenPopOver}
           >
-            <SpanTimeTextStyled index={index}>{item.time}</SpanTimeTextStyled>
+            <SpanTimeTextStyled index={index}>{item}</SpanTimeTextStyled>
           </CellContainerStyled>
         ))}
 
